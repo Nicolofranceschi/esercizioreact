@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { data } from "./data";
+import { Card } from "./Card";
+import { Titolo } from "./Titolo";
+import { Container } from "./styled";
+import { useForm } from "react-hook-form";
+
 
 function App() {
+  let arr= data;
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (form) =>  {
+    console.log(form);
+    arr=data.filter((elemento , form) => {
+      return elemento.pointOfInterest===10
+    })
+    //aggiornarna lo stato Usestate
+    console.log(arr);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Titolo />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("ricerca")} />
+        <input type="submit" />
+      </form>
+      <Container>
+        {arr.map((item) => (
+          <Card key={item.id} {...item} />
+        ))}
+      </Container>
+    </>
   );
 }
 
 export default App;
+
